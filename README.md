@@ -1,6 +1,6 @@
 # BitNet API Server
 
-A FastAPI wrapper for Microsoft's BitNet inference framework that provides OpenAI-compatible API endpoints for 1-bit LLMs.
+A FastAPI wrapper for [Microsoft's BitNet](https://github.com/microsoft/BitNet) inference framework that provides OpenAI-compatible API endpoints for 1-bit LLMs.
 
 ## Features
 
@@ -16,19 +16,36 @@ A FastAPI wrapper for Microsoft's BitNet inference framework that provides OpenA
 - FastAPI
 - Uvicorn
 - Pydantic
-- A built BitNet executable and model
+- A built BitNet executable and model (from [Microsoft BitNet](https://github.com/microsoft/BitNet))
 
 ## Installation
 
-1. Clone the Microsoft BitNet repository and build it following the instructions in their [GitHub repository](https://github.com/microsoft/BitNet)
+1. Clone the Microsoft BitNet repository and build it following the instructions in their [GitHub repository](https://github.com/microsoft/BitNet):
 
-2. Install the required Python packages:
+```bash
+git clone --recursive https://github.com/microsoft/BitNet.git
+cd BitNet
+```
+
+2. Follow the BitNet setup instructions to build the project and download a model:
+
+```bash
+conda create -n bitnet-cpp python=3.9
+conda activate bitnet-cpp
+pip install -r requirements.txt
+
+# Download a model like BitNet-b1.58-2B-4T
+huggingface-cli download microsoft/BitNet-b1.58-2B-4T-gguf --local-dir models/BitNet-b1.58-2B-4T
+python setup_env.py -md models/BitNet-b1.58-2B-4T -q i2_s
+```
+
+3. Install the API server requirements:
 
 ```bash
 pip install fastapi uvicorn pydantic
 ```
 
-3. Place the `bitnet_api_server.py` file in your BitNet directory.
+4. Place the `bitnet_api_server.py` file in your BitNet directory.
 
 ## Usage
 
@@ -143,9 +160,36 @@ print(response.json()["choices"][0]["message"]["content"])
 
 MIT License
 
+```
+Copyright (c) 2024 BitNet API Server Contributors
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+```
+
 ## Acknowledgements
 
-This project serves as an API wrapper for Microsoft's BitNet framework. All credit for the underlying BitNet implementation goes to Microsoft and the BitNet contributors.
+This project serves as an API wrapper for [Microsoft's BitNet framework](https://github.com/microsoft/BitNet). All credit for the underlying BitNet implementation goes to Microsoft and the BitNet contributors.
+
+## Related Projects
+
+- [Microsoft BitNet](https://github.com/microsoft/BitNet) - Official inference framework for 1-bit LLMs
+- [BitNet Models](https://huggingface.co/microsoft/BitNet-b1.58-2B-4T-gguf) - Official BitNet models on Hugging Face
 
 ## Disclaimer
 
